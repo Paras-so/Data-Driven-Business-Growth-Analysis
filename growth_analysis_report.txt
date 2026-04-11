@@ -1,0 +1,76 @@
+
+================================================================
+  DATA-DRIVEN BUSINESS GROWTH ANALYSIS
+  Period: Jan 2023 – Dec 2024  |  Generated: 2026-04-10
+================================================================
+
+                    ─── REVENUE & SALES ───                     
+
+  Gross Revenue (2-yr total)   ₹   3,837,261
+  Net Revenue   (2-yr total)   ₹   3,691,676
+  YoY Revenue Growth                +31.4%
+  Revenue CAGR (annualised)         +31.4%
+  Avg Monthly Revenue Yr1      ₹     138,195
+  Avg Monthly Revenue Yr2      ₹     181,577
+  Total Units Sold                   77,283
+  Avg Order Value (all-time)   ₹          50
+  Avg Refund Rate                      3.8%
+  Peak Revenue Month           Dec 2024
+  Best MoM Growth                   +15.8%
+
+----------------------------------------------------------------
+            ─── CUSTOMER ACQUISITION & RETENTION ───            
+
+  Total Customers (end)              41,471
+  Total New Customers Acq.           48,959
+  Total Churned                       6,518
+  YoY New-Customer Growth           +26.4%
+  Avg Monthly Retention Rate          95.1%
+  Avg CAC                      ₹          48
+  Avg LTV                      ₹       1,923
+  Avg LTV : CAC Ratio                 41.57×
+    → Healthy threshold = 3×; Warning < 2×
+
+----------------------------------------------------------------
+                   ─── MARKETING & FUNNEL ───                   
+
+  Avg Monthly Visitors              126,008
+  Avg Monthly Leads                  11,782
+  Avg Monthly MQLs                    5,244
+  Avg Monthly SQLs                    2,332
+  Avg Monthly Conversions             1,783
+
+  Visitor → Lead CVR                  9.31%
+  Lead   → MQL   CVR                 44.23%
+  MQL    → SQL   CVR                 44.79%
+  SQL    → Close CVR                 84.04%
+  Overall Visitor → Sale CVR          1.47%
+
+  Top Traffic Channel (latest) Organic Search
+
+----------------------------------------------------------------
+                      ─── KEY INSIGHTS ───                      
+
+  1. Revenue grew 31.4% YoY — driven by both volume
+     and AOV improvement over the 24-month window.
+
+  2. Retention averaged 95.1%, keeping churn manageable.
+     Months below 88% warrant investigation.
+
+  3. LTV:CAC ratio of 41.57× is above the 3× healthy
+     benchmark — unit economics are solid.
+
+  4. Funnel top-of-funnel CVR (9.3%) is the biggest
+     leverage point — improving it by 1pp compounds across
+     every downstream stage.
+
+  5. Organic Search dominates traffic mix; diversifying
+     paid and email channels can reduce concentration risk.
+
+================================================================
+  Charts saved:
+    01_revenue_overview.png
+    02_customer_metrics.png
+    03_funnel_metrics.png
+    04_executive_dashboard.png
+================================================================

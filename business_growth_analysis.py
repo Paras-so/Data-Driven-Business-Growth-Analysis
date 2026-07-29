@@ -1,5 +1,6 @@
 # Business Growth Analysis - 2 years of data (2023-2024)
 # covers revenue, customers, and marketing funnel
+# extended with a PostgreSQL-backed NL2SQL query layer
 
 import numpy as np
 import pandas as pd
@@ -143,4 +144,89 @@ def save(fig, name):
     plt.close(fig)
     return path
 
-# (rest of your plotting + report code stays EXACTLY the same)
+# ================================================================
+# NL2SQL Retail Insights Layer
+# ================================================================
+
+from sqlalchemy import create_engine, text
+
+DB_USER = "postgres"
+DB_PASSWORD = "your_password"
+DB_HOST = "localhost"
+DB_PORT = "5432"
+DB_NAME = "business_growth"
+
+DB_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+
+def load_to_db(df, table_name="transactions", db_url=DB_URL):
+    engine = create_engine(db_url)
+    df.to_sql(table_name, engine, if_exists="replace", index=False)
+    engine.dispose()
+    return db_url
+
+
+def get_schema(table_name="transactions", db_url=DB_URL):
+    engine = create_engine(db_url)
+    query = text("""
+        SELECT column_name, data_type
+        FROM information_schema.columns
+        WHERE table_name = :table_name
+        ORDER BY ordinal_position
+    """)
+    with engine.connect() as conn:
+        columns = conn.execute(query, {"table_name": table_name}).fetchall()
+    engine.dispose()
+
+    schema_desc = f"Table: {table_name}\nColumns:\n"
+    for col in columns:
+        schema_desc += f"  - {col[0]} ({col[1]})\n"
+    return schema_desc
+
+
+def is_safe_query(sql):
+    forbidden = ["insert", "update", "delete", "drop", "alter", "create", "truncate", "grant"]
+    sql_lower = sql.strip().lower()
+    if not sql_lower.startswith("select"):
+        return False
+    return not any(word in sql_lower for word in forbidden)
+
+
+def nl_to_sql(question, schema_desc, client):
+    prompt = f"""Given this PostgreSQL schema:
+
+{schema_desc}
+
+Write a single valid PostgreSQL SELECT query to answer this question:
+"{question}"
+
+Return ONLY the SQL query, no explanation."""
+
+    response = client.messages.create(
+        model="claude-sonnet-4-5",
+        max_tokens=300,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    sql = response.content[0].text.strip()
+    sql = sql.replace("```sql", "").replace("```", "").strip()
+    return sql
+
+
+def ask(question, table_name="transactions", db_url=DB_URL, client=None):
+    schema_desc = get_schema(table_name, db_url)
+    sql = nl_to_sql(question, schema_desc, client)
+
+    if not is_safe_query(sql):
+        return {"error": "Unsafe query blocked", "sql": sql}
+
+    engine = create_engine(db_url)
+    try:
+        result = pd.read_sql_query(sql, engine)
+    except Exception as e:
+        return {"error": str(e), "sql": sql}
+    finally:
+        engine.dispose()
+
+    return {"sql": sql, "result": result}
+
+
